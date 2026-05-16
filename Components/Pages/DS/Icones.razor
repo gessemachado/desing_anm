@@ -1,5 +1,6 @@
 @page "/ds/icones"
 @rendermode InteractiveServer
+@inject ISnackbar Snackbar
 
 <MudPopoverProvider />
 <MudDialogProvider />
@@ -7,54 +8,131 @@
 
 <PageTitle>Ícones — Design System ANM</PageTitle>
 
-<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Ícones</MudText>
-<MudText Typo="Typo.body2" Class="mb-6">Ícones Material Design usados no sistema. Tamanhos: Small (20px), Medium (24px), Large (35px).</MudText>
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Iconografia</MudText>
+<MudText Typo="Typo.body2" Class="mb-2">
+    O SIGBM usa a biblioteca <b>Font Awesome 5 Free</b>, padrão do Gov.br Design System.
+    Classes disponíveis: <code>fas</code> (solid), <code>far</code> (regular), <code>fab</code> (brands).
+</MudText>
+<MudAlert Severity="Severity.Info" Class="mb-6">
+    Uso em HTML: <code>&lt;i class="fas fa-water"&gt;&lt;/i&gt;</code> &nbsp;|&nbsp;
+    Uso em Blazor: <code>&lt;span class="fas fa-water"&gt;&lt;/span&gt;</code>
+</MudAlert>
 
-<MudText Typo="Typo.h6" Class="mb-3">Tamanhos</MudText>
+<MudText Typo="Typo.h6" Class="mb-3">Tamanhos (FA)</MudText>
 <MudPaper Elevation="0" Class="pa-4 mb-6 d-flex align-center gap-6" Style="background:#F5F7FA;border-radius:8px">
     <div class="text-center">
-        <MudIcon Icon="@Icons.Material.Filled.Water" Size="Size.Small" Color="Color.Primary" /><br/>
-        <MudText Typo="Typo.caption">Small</MudText>
+        <i class="fas fa-water fa-sm" style="color:#0A527A"></i>
+        <MudText Typo="Typo.caption" Class="d-block mt-1">fa-sm</MudText>
     </div>
     <div class="text-center">
-        <MudIcon Icon="@Icons.Material.Filled.Water" Size="Size.Medium" Color="Color.Primary" /><br/>
-        <MudText Typo="Typo.caption">Medium</MudText>
+        <i class="fas fa-water" style="color:#0A527A;font-size:1rem"></i>
+        <MudText Typo="Typo.caption" Class="d-block mt-1">padrão</MudText>
     </div>
     <div class="text-center">
-        <MudIcon Icon="@Icons.Material.Filled.Water" Size="Size.Large" Color="Color.Primary" /><br/>
-        <MudText Typo="Typo.caption">Large</MudText>
+        <i class="fas fa-water fa-lg" style="color:#0A527A"></i>
+        <MudText Typo="Typo.caption" Class="d-block mt-1">fa-lg</MudText>
+    </div>
+    <div class="text-center">
+        <i class="fas fa-water fa-2x" style="color:#0A527A"></i>
+        <MudText Typo="Typo.caption" Class="d-block mt-1">fa-2x</MudText>
+    </div>
+    <div class="text-center">
+        <i class="fas fa-water fa-3x" style="color:#0A527A"></i>
+        <MudText Typo="Typo.caption" Class="d-block mt-1">fa-3x</MudText>
     </div>
 </MudPaper>
 
-<MudText Typo="Typo.h6" Class="mb-3">Ícones do Domínio ANM</MudText>
-<MudGrid>
-    @foreach (var ic in _icones)
+<MudText Typo="Typo.h6" Class="mb-3">Ícones do Domínio — SIGBM</MudText>
+<MudGrid Class="mb-6">
+    @foreach (var g in _grupos)
     {
-        <MudItem xs="6" sm="3" md="2">
-            <div class="text-center pa-3">
-                <MudIcon Icon="@ic.Icon" Size="Size.Large" Color="Color.Primary" Class="mb-1" />
-                <MudText Typo="Typo.caption">@ic.Nome</MudText>
-            </div>
+        <MudItem xs="12">
+            <MudText Typo="Typo.subtitle2" Style="color:#4A6070;text-transform:uppercase;font-weight:600;letter-spacing:.5px;margin-bottom:12px">@g.Grupo</MudText>
         </MudItem>
+        @foreach (var ic in g.Icones)
+        {
+            <MudItem xs="6" sm="4" md="3" lg="2">
+                <MudPaper Elevation="0" Class="pa-3 text-center" Style="border:1px solid #E0E8EF;border-radius:8px;cursor:pointer" @onclick="() => Copiar(ic.Classe)">
+                    <i class="@ic.Classe fa-2x mb-2" style="color:#0A527A;display:block"></i>
+                    <MudText Typo="Typo.caption" Style="font-weight:600;display:block">@ic.Nome</MudText>
+                    <MudText Typo="Typo.caption" Style="color:#9EADB8;font-size:10px">@ic.Classe</MudText>
+                </MudPaper>
+            </MudItem>
+        }
+        <MudItem xs="12"><MudDivider Class="my-2" /></MudItem>
     }
 </MudGrid>
 
 @code {
-    record IconeItem(string Nome, string Icon);
+    string? _copiado;
 
-    readonly IconeItem[] _icones =
+    record IconeFA(string Nome, string Classe);
+    record GrupoIcones(string Grupo, IconeFA[] Icones);
+
+    readonly GrupoIcones[] _grupos =
     [
-        new("Barragem", Icons.Material.Filled.Water),
-        new("Inspeção", Icons.Material.Filled.Assignment),
-        new("Alerta", Icons.Material.Filled.Warning),
-        new("Relatório", Icons.Material.Filled.Description),
-        new("Usuário", Icons.Material.Filled.Person),
-        new("Configuração", Icons.Material.Filled.Settings),
-        new("Dashboard", Icons.Material.Filled.Dashboard),
-        new("Mapa", Icons.Material.Filled.Map),
-        new("Documento", Icons.Material.Filled.Article),
-        new("Conformidade", Icons.Material.Filled.CheckCircle),
-        new("Empresa", Icons.Material.Filled.Business),
-        new("Dados", Icons.Material.Filled.Storage),
+        new("Navegação e Interface", [
+            new("Início", "fas fa-home"),
+            new("Menu", "fas fa-bars"),
+            new("Voltar", "fas fa-arrow-left"),
+            new("Avançar", "fas fa-arrow-right"),
+            new("Fechar", "fas fa-times"),
+            new("Buscar", "fas fa-search"),
+            new("Filtrar", "fas fa-filter"),
+            new("Ordenar", "fas fa-sort"),
+            new("Configurações", "fas fa-cog"),
+            new("Mais opções", "fas fa-ellipsis-v"),
+        ]),
+        new("Ações", [
+            new("Adicionar", "fas fa-plus"),
+            new("Editar", "fas fa-pencil-alt"),
+            new("Excluir", "fas fa-trash-alt"),
+            new("Salvar", "fas fa-save"),
+            new("Download", "fas fa-download"),
+            new("Upload", "fas fa-upload"),
+            new("Imprimir", "fas fa-print"),
+            new("Compartilhar", "fas fa-share-alt"),
+            new("Copiar", "fas fa-copy"),
+            new("Visualizar", "fas fa-eye"),
+        ]),
+        new("Status e Alertas", [
+            new("Sucesso", "fas fa-check-circle"),
+            new("Alerta", "fas fa-exclamation-triangle"),
+            new("Erro", "fas fa-times-circle"),
+            new("Informação", "fas fa-info-circle"),
+            new("Pendente", "fas fa-clock"),
+            new("Bloqueado", "fas fa-ban"),
+            new("Favorito", "fas fa-star"),
+            new("Notificação", "fas fa-bell"),
+        ]),
+        new("Domínio SIGBM — Barragens", [
+            new("Barragem / Água", "fas fa-water"),
+            new("Mineração", "fas fa-mountain"),
+            new("Mapa", "fas fa-map-marked-alt"),
+            new("Localização", "fas fa-map-marker-alt"),
+            new("Inspeção", "fas fa-clipboard-check"),
+            new("Relatório", "fas fa-file-alt"),
+            new("Documento", "fas fa-file-contract"),
+            new("Empresa", "fas fa-industry"),
+            new("Engenheiro", "fas fa-hard-hat"),
+            new("Medição", "fas fa-ruler-combined"),
+            new("Nível / Cota", "fas fa-level-up-alt"),
+            new("Histórico", "fas fa-history"),
+        ]),
+        new("Usuário e Acesso", [
+            new("Usuário", "fas fa-user"),
+            new("Grupo", "fas fa-users"),
+            new("Perfil", "fas fa-id-card"),
+            new("Login", "fas fa-sign-in-alt"),
+            new("Logout", "fas fa-sign-out-alt"),
+            new("Permissão", "fas fa-user-shield"),
+            new("Cadeado", "fas fa-lock"),
+        ]),
     ];
+
+    void Copiar(string classe)
+    {
+        _copiado = classe;
+        Snackbar.Add($"Copiado: {classe}", Severity.Success);
+    }
 }
