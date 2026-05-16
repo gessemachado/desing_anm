@@ -1,0 +1,60 @@
+@page "/ds/icones"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Ícones — Design System ANM</PageTitle>
+
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Ícones</MudText>
+<MudText Typo="Typo.body2" Class="mb-6">Ícones Material Design usados no sistema. Tamanhos: Small (20px), Medium (24px), Large (35px).</MudText>
+
+<MudText Typo="Typo.h6" Class="mb-3">Tamanhos</MudText>
+<MudPaper Elevation="0" Class="pa-4 mb-6 d-flex align-center gap-6" Style="background:#F5F7FA;border-radius:8px">
+    <div class="text-center">
+        <MudIcon Icon="@Icons.Material.Filled.Water" Size="Size.Small" Color="Color.Primary" /><br/>
+        <MudText Typo="Typo.caption">Small</MudText>
+    </div>
+    <div class="text-center">
+        <MudIcon Icon="@Icons.Material.Filled.Water" Size="Size.Medium" Color="Color.Primary" /><br/>
+        <MudText Typo="Typo.caption">Medium</MudText>
+    </div>
+    <div class="text-center">
+        <MudIcon Icon="@Icons.Material.Filled.Water" Size="Size.Large" Color="Color.Primary" /><br/>
+        <MudText Typo="Typo.caption">Large</MudText>
+    </div>
+</MudPaper>
+
+<MudText Typo="Typo.h6" Class="mb-3">Ícones do Domínio ANM</MudText>
+<MudGrid>
+    @foreach (var ic in _icones)
+    {
+        <MudItem xs="6" sm="3" md="2">
+            <div class="text-center pa-3">
+                <MudIcon Icon="@ic.Icon" Size="Size.Large" Color="Color.Primary" Class="mb-1" />
+                <MudText Typo="Typo.caption">@ic.Nome</MudText>
+            </div>
+        </MudItem>
+    }
+</MudGrid>
+
+@code {
+    record IconeItem(string Nome, string Icon);
+
+    readonly IconeItem[] _icones =
+    [
+        new("Barragem", Icons.Material.Filled.Water),
+        new("Inspeção", Icons.Material.Filled.Assignment),
+        new("Alerta", Icons.Material.Filled.Warning),
+        new("Relatório", Icons.Material.Filled.Description),
+        new("Usuário", Icons.Material.Filled.Person),
+        new("Configuração", Icons.Material.Filled.Settings),
+        new("Dashboard", Icons.Material.Filled.Dashboard),
+        new("Mapa", Icons.Material.Filled.Map),
+        new("Documento", Icons.Material.Filled.Article),
+        new("Conformidade", Icons.Material.Filled.CheckCircle),
+        new("Empresa", Icons.Material.Filled.Business),
+        new("Dados", Icons.Material.Filled.Storage),
+    ];
+}

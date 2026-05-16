@@ -1,0 +1,62 @@
+@page "/ds/tabelas"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Tabelas — Design System ANM</PageTitle>
+
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Tabelas</MudText>
+<MudText Typo="Typo.body2" Class="mb-6">Tabela com ordenação, paginação e filtro.</MudText>
+
+<MudTable Items="_itens" Hover="true" Striped="true" Dense="false" Elevation="1"
+          Filter="new Func<BarragemItem,bool>(Filtrar)">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Barragens de Exemplo</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="_filtro" Placeholder="Filtrar..." Adornment="Adornment.Start"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0" />
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh><MudTableSortLabel SortBy="new Func<BarragemItem,object>(x=>x.Nome)">Nome</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<BarragemItem,object>(x=>x.Estado)">Estado</MudTableSortLabel></MudTh>
+        <MudTh><MudTableSortLabel SortBy="new Func<BarragemItem,object>(x=>x.Volume)">Volume (m³)</MudTableSortLabel></MudTh>
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Nome">@context.Nome</MudTd>
+        <MudTd DataLabel="Estado">@context.Estado</MudTd>
+        <MudTd DataLabel="Volume">@context.Volume.ToString("N0")</MudTd>
+        <MudTd DataLabel="Status">
+            <MudChip Color="@(context.Ativo ? Color.Success : Color.Default)" Size="Size.Small" T="string">
+                @(context.Ativo ? "Ativo" : "Inativo")
+            </MudChip>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager PageSizeOptions="new int[]{5,10,25}" />
+    </PagerContent>
+</MudTable>
+
+@code {
+    string _filtro = "";
+
+    record BarragemItem(string Nome, string Estado, int Volume, bool Ativo);
+
+    readonly BarragemItem[] _itens =
+    [
+        new("Barragem Pedra Branca", "MG", 1_250_000, true),
+        new("Barragem Rio Verde", "GO", 850_000, true),
+        new("Barragem Serra Azul", "MG", 3_200_000, true),
+        new("Barragem Tucano", "BA", 420_000, false),
+        new("Barragem Lagoa Feia", "RJ", 950_000, true),
+        new("Barragem Chapada", "MT", 1_100_000, true),
+        new("Barragem Açu", "RN", 680_000, false),
+    ];
+
+    bool Filtrar(BarragemItem item) =>
+        string.IsNullOrWhiteSpace(_filtro) ||
+        item.Nome.Contains(_filtro, StringComparison.OrdinalIgnoreCase) ||
+        item.Estado.Contains(_filtro, StringComparison.OrdinalIgnoreCase);
+}

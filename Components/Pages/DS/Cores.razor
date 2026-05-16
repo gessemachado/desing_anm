@@ -1,0 +1,75 @@
+@page "/ds/cores"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Cores — Design System ANM</PageTitle>
+
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Paleta de Cores</MudText>
+<MudText Typo="Typo.body2" Class="mb-6">Tokens semânticos de cor do Design System ANM. Use sempre as variáveis CSS ao invés de valores hex diretos.</MudText>
+
+<MudText Typo="Typo.h6" Class="mb-3">Primária — Azul ANM</MudText>
+<MudGrid Class="mb-6">
+    @foreach (var c in _primaryColors)
+    {
+        <MudItem xs="6" sm="4" md="2">
+            <div style="background:@c.Hex;height:80px;border-radius:8px;margin-bottom:8px"></div>
+            <MudText Typo="Typo.caption" Style="font-weight:600">@c.Token</MudText>
+            <MudText Typo="Typo.caption" Style="color:#666">@c.Hex</MudText>
+        </MudItem>
+    }
+</MudGrid>
+
+<MudText Typo="Typo.h6" Class="mb-3">Secundária — Verde</MudText>
+<MudGrid Class="mb-6">
+    @foreach (var c in _secondaryColors)
+    {
+        <MudItem xs="6" sm="4" md="2">
+            <div style="background:@c.Hex;height:80px;border-radius:8px;margin-bottom:8px"></div>
+            <MudText Typo="Typo.caption" Style="font-weight:600">@c.Token</MudText>
+            <MudText Typo="Typo.caption" Style="color:#666">@c.Hex</MudText>
+        </MudItem>
+    }
+</MudGrid>
+
+<MudText Typo="Typo.h6" Class="mb-3">Destaque — Amarelo</MudText>
+<MudGrid Class="mb-6">
+    <MudItem xs="6" sm="4" md="2">
+        <div style="background:#FFC923;height:80px;border-radius:8px;margin-bottom:8px"></div>
+        <MudText Typo="Typo.caption" Style="font-weight:600">--color-accent</MudText>
+        <MudText Typo="Typo.caption" Style="color:#666">#FFC923</MudText>
+    </MudItem>
+</MudGrid>
+
+<MudText Typo="Typo.h6" Class="mb-3">Semânticas</MudText>
+<MudGrid>
+    <MudItem xs="6" sm="3"><MudChip Color="Color.Success" T="string">Sucesso #178058</MudChip></MudItem>
+    <MudItem xs="6" sm="3"><MudChip Color="Color.Warning" T="string">Alerta #FFC923</MudChip></MudItem>
+    <MudItem xs="6" sm="3"><MudChip Color="Color.Error" T="string">Erro #D32F2F</MudChip></MudItem>
+    <MudItem xs="6" sm="3"><MudChip Color="Color.Info" T="string">Info #5BA3C9</MudChip></MudItem>
+</MudGrid>
+
+@code {
+    record ColorToken(string Token, string Hex);
+
+    readonly ColorToken[] _primaryColors =
+    [
+        new("--color-primary-dark", "#063A57"),
+        new("--color-primary", "#0A527A"),
+        new("--color-primary-mid", "#1A6D9E"),
+        new("--color-primary-light", "#3D8DB8"),
+        new("--color-primary-lighter", "#5BA3C9"),
+        new("--color-primary-pale", "#C8E3F0"),
+    ];
+
+    readonly ColorToken[] _secondaryColors =
+    [
+        new("--color-secondary-dark", "#0F5A3D"),
+        new("--color-secondary", "#178058"),
+        new("--color-secondary-mid", "#239E6D"),
+        new("--color-secondary-light", "#3BBB8F"),
+        new("--color-secondary-pale", "#C3EBD9"),
+    ];
+}

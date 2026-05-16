@@ -1,0 +1,74 @@
+@page "/ds/cards"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Cards — Design System ANM</PageTitle>
+
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Cards</MudText>
+<MudText Typo="Typo.body2" Class="mb-6">Padrões de card para conteúdo, métricas e alertas.</MudText>
+
+<MudText Typo="Typo.h6" Class="mb-3">Cards de Métricas</MudText>
+<MudGrid Class="mb-6">
+    @foreach (var m in _metricas)
+    {
+        <MudItem xs="12" sm="6" md="3">
+            <MudCard Elevation="1">
+                <MudCardContent>
+                    <div class="d-flex justify-space-between align-center">
+                        <div>
+                            <MudText Typo="Typo.caption" Style="color:#4A6070;text-transform:uppercase;font-weight:600;letter-spacing:.5px">@m.Titulo</MudText>
+                            <MudText Typo="Typo.h5" Style="font-weight:700;margin-top:4px">@m.Valor</MudText>
+                            <MudText Typo="Typo.caption" Style="@($"color:{(m.Positivo ? "#178058" : "#D32F2F")}")">@m.Variacao</MudText>
+                        </div>
+                        <MudIcon Icon="@m.Icone" Style="@($"font-size:2.5rem;color:{m.Cor};opacity:.8")" />
+                    </div>
+                </MudCardContent>
+            </MudCard>
+        </MudItem>
+    }
+</MudGrid>
+
+<MudText Typo="Typo.h6" Class="mb-3">Alertas e Notificações</MudText>
+<MudGrid Class="mb-6">
+    <MudItem xs="12" md="6">
+        <MudAlert Severity="Severity.Success" Class="mb-3">Operação realizada com sucesso.</MudAlert>
+        <MudAlert Severity="Severity.Warning" Class="mb-3">Atenção: dados incompletos encontrados.</MudAlert>
+        <MudAlert Severity="Severity.Error" Class="mb-3">Erro ao processar a solicitação.</MudAlert>
+        <MudAlert Severity="Severity.Info">Inspeção programada para 20/06/2026.</MudAlert>
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudCard Elevation="1">
+            <MudCardHeader>
+                <CardHeaderContent>
+                    <MudText Typo="Typo.h6">Barragem Serra Azul</MudText>
+                    <MudText Typo="Typo.caption" Style="color:#4A6070">Última inspeção: 10/05/2026</MudText>
+                </CardHeaderContent>
+                <CardHeaderActions>
+                    <MudChip Color="Color.Success" Size="Size.Small" T="string">Estável</MudChip>
+                </CardHeaderActions>
+            </MudCardHeader>
+            <MudCardContent>
+                <MudText Typo="Typo.body2">Volume atual: <b>3.2M m³</b> · Nível: <b>87%</b></MudText>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Text" Color="Color.Primary">Ver detalhes</MudButton>
+                <MudButton Variant="Variant.Text" Color="Color.Default">Relatório</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+
+@code {
+    record Metrica(string Titulo, string Valor, string Variacao, bool Positivo, string Icone, string Cor);
+
+    readonly Metrica[] _metricas =
+    [
+        new("Barragens Ativas", "1.247", "+12 este mês", true, Icons.Material.Filled.Water, "#0A527A"),
+        new("Inspeções Pendentes", "38", "-5 esta semana", true, Icons.Material.Filled.Assignment, "#FFC923"),
+        new("Alertas Abertos", "7", "+2 hoje", false, Icons.Material.Filled.Warning, "#D32F2F"),
+        new("Conformidade", "94,3%", "+0,8% vs mês ant.", true, Icons.Material.Filled.CheckCircle, "#178058"),
+    ];
+}

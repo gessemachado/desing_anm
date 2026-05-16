@@ -1,0 +1,48 @@
+@page "/ds/formularios"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Formulários — Design System ANM</PageTitle>
+
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Formulários</MudText>
+<MudText Typo="Typo.body2" Class="mb-6">Campos de entrada com variantes e estados do Design System ANM.</MudText>
+
+<MudGrid>
+    <MudItem xs="12" md="6">
+        <MudText Typo="Typo.h6" Class="mb-3">Campos de texto</MudText>
+        <MudTextField @bind-Value="_texto" Label="Campo padrão" Variant="Variant.Outlined" Class="mb-3" />
+        <MudTextField @bind-Value="_texto" Label="Com ícone" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" Variant="Variant.Outlined" Class="mb-3" />
+        <MudTextField @bind-Value="_texto" Label="Com erro" Error="true" ErrorText="Campo obrigatório" Variant="Variant.Outlined" Class="mb-3" />
+        <MudTextField @bind-Value="_texto" Label="Desabilitado" Disabled="true" Variant="Variant.Outlined" Class="mb-3" />
+        <MudTextField @bind-Value="_area" Label="Área de texto" Lines="3" Variant="Variant.Outlined" Class="mb-3" />
+    </MudItem>
+    <MudItem xs="12" md="6">
+        <MudText Typo="Typo.h6" Class="mb-3">Seleção e escolha</MudText>
+        <MudSelect @bind-Value="_select" Label="Selecionar" Variant="Variant.Outlined" Class="mb-3">
+            <MudSelectItem Value="@("op1")">Opção 1</MudSelectItem>
+            <MudSelectItem Value="@("op2")">Opção 2</MudSelectItem>
+            <MudSelectItem Value="@("op3")">Opção 3</MudSelectItem>
+        </MudSelect>
+        <MudCheckBox @bind-Value="_check1" Label="Checkbox padrão" Color="Color.Primary" Class="mb-2" />
+        <MudCheckBox @bind-Value="_check2" Label="Checkbox desabilitado" Disabled="true" Class="mb-3" />
+        <MudSwitch @bind-Value="_switch1" Label="Switch ativo" Color="Color.Primary" Class="mb-2" />
+        <MudRadioGroup @bind-Value="_radio" Class="mb-3">
+            <MudRadio Value="@("a")" Color="Color.Primary">Opção A</MudRadio>
+            <MudRadio Value="@("b")" Color="Color.Primary">Opção B</MudRadio>
+        </MudRadioGroup>
+        <MudDatePicker Label="Data" Variant="Variant.Outlined" />
+    </MudItem>
+</MudGrid>
+
+@code {
+    string _texto = "";
+    string _area = "";
+    string _select = "";
+    bool _check1 = true;
+    bool _check2 = false;
+    bool _switch1 = true;
+    string _radio = "a";
+}

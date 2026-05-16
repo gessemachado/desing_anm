@@ -1,0 +1,37 @@
+@page "/ds/botoes"
+@rendermode InteractiveServer
+
+<MudPopoverProvider />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<PageTitle>Botões — Design System ANM</PageTitle>
+
+<MudText Typo="Typo.h5" GutterBottom="true" Style="font-weight:700">Botões</MudText>
+<MudText Typo="Typo.body2" Class="mb-6">Variantes, tamanhos e estados dos botões do Design System ANM.</MudText>
+
+<MudText Typo="Typo.h6" Class="mb-3">Variantes</MudText>
+<MudPaper Elevation="0" Class="pa-4 mb-6 d-flex flex-wrap gap-3" Style="background:#F5F7FA;border-radius:8px">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary">Primário Filled</MudButton>
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary">Primário Outlined</MudButton>
+    <MudButton Variant="Variant.Text" Color="Color.Primary">Primário Text</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Secondary">Secundário</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Error">Perigo</MudButton>
+    <MudButton Variant="Variant.Filled" Disabled="true">Desabilitado</MudButton>
+</MudPaper>
+
+<MudText Typo="Typo.h6" Class="mb-3">Tamanhos</MudText>
+<MudPaper Elevation="0" Class="pa-4 mb-6 d-flex flex-wrap align-center gap-3" Style="background:#F5F7FA;border-radius:8px">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Small">Pequeno</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Medium">Médio</MudButton>
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" Size="Size.Large">Grande</MudButton>
+</MudPaper>
+
+<MudText Typo="Typo.h6" Class="mb-3">Com Ícone</MudText>
+<MudPaper Elevation="0" Class="pa-4 mb-6 d-flex flex-wrap gap-3" Style="background:#F5F7FA;border-radius:8px">
+    <MudButton Variant="Variant.Filled" Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add">Adicionar</MudButton>
+    <MudButton Variant="Variant.Outlined" Color="Color.Primary" EndIcon="@Icons.Material.Filled.ArrowForward">Continuar</MudButton>
+    <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" />
+    <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" />
+    <MudFab Color="Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Medium" />
+</MudPaper>
