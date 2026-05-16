@@ -1,0 +1,14 @@
+## .NET
+obj/
+bin/
+*.user
+*.suo
+.vs/
+
+## Banco de dados
+Data/app.db
+Data/*.db-shm
+Data/*.db-wal
+
+## Publicação
+publish/

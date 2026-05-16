@@ -1,0 +1,55 @@
+@inherits LayoutComponentBase
+@using desing_ANM.Components.Themes
+
+<MudThemeProvider Theme="@_theme" />
+<MudLayout>
+    <MudAppBar Elevation="2" Color="Color.Primary">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="ToggleDrawer" />
+        <MudImage Src="images/logo-anm.png" Alt="ANM" Height="36" Class="ml-2 mr-2" style="object-fit:contain" />
+        <MudText Typo="Typo.h6" Class="ml-1" Style="font-weight:600;letter-spacing:.5px">Design System ANM</MudText>
+        <MudSpacer />
+        <AuthorizeView>
+            <Authorized>
+                <MudText Typo="Typo.body2" Class="mr-2">@context.User.Identity?.Name</MudText>
+                <MudMenu Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Inherit" AnchorOrigin="Origin.BottomRight">
+                    <MudMenuItem Href="Account/Manage">Minha conta</MudMenuItem>
+                    <MudMenuItem>
+                        <form action="Account/Logout" method="post">
+                            <AntiforgeryToken />
+                            <input type="hidden" name="returnUrl" value="/" />
+                            <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Text" Color="Color.Inherit" Size="Size.Small">Sair</MudButton>
+                        </form>
+                    </MudMenuItem>
+                </MudMenu>
+            </Authorized>
+            <NotAuthorized>
+                <MudButton Href="Account/Login" Variant="Variant.Text" Color="Color.Inherit" Size="Size.Small">Entrar</MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudAppBar>
+    <MudDrawer @bind-Open="_drawerOpen" ClipMode="DrawerClipMode.Always" Elevation="1" Variant="DrawerVariant.Responsive">
+        <MudDrawerHeader Style="padding: 16px;">
+            <MudText Typo="Typo.subtitle2" Style="color:var(--mud-palette-primary);font-weight:600">SIGBM 2.0</MudText>
+        </MudDrawerHeader>
+        <MudDivider />
+        <NavMenu />
+    </MudDrawer>
+    <MudMainContent Class="pt-16 pa-4">
+        <MudContainer MaxWidth="MaxWidth.ExtraLarge">
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+<div id="blazor-error-ui" data-nosnippet>
+    Ocorreu um erro inesperado.
+    <a href="." class="reload">Recarregar</a>
+    <span class="dismiss">✕</span>
+</div>
+
+@code {
+    private bool _drawerOpen = true;
+    private readonly MudTheme _theme = AnmTheme.Create();
+
+    private void ToggleDrawer() => _drawerOpen = !_drawerOpen;
+}

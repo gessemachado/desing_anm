@@ -1,0 +1,57 @@
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+<MudNavMenu>
+    <MudNavLink Href="" Match="NavLinkMatch.All" Icon="@Icons.Material.Filled.Dashboard">Início</MudNavLink>
+
+    <MudNavGroup Title="Design System" Icon="@Icons.Material.Filled.Palette" Expanded="true">
+        <MudNavLink Href="ds/cores" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ColorLens">Cores</MudNavLink>
+        <MudNavLink Href="ds/tipografia" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.TextFields">Tipografia</MudNavLink>
+        <MudNavLink Href="ds/botoes" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.SmartButton">Botões</MudNavLink>
+        <MudNavLink Href="ds/formularios" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.EditNote">Formulários</MudNavLink>
+        <MudNavLink Href="ds/tabelas" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.TableChart">Tabelas</MudNavLink>
+        <MudNavLink Href="ds/cards" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.ViewAgenda">Cards</MudNavLink>
+        <MudNavLink Href="ds/icones" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.EmojiEmotions">Ícones</MudNavLink>
+    </MudNavGroup>
+
+    <MudNavGroup Title="Conta" Icon="@Icons.Material.Filled.ManageAccounts">
+        <AuthorizeView>
+            <Authorized>
+                <MudNavLink Href="Account/Manage" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Person">Minha Conta</MudNavLink>
+                <form action="Account/Logout" method="post">
+                    <AntiforgeryToken />
+                    <input type="hidden" name="ReturnUrl" value="@currentUrl" />
+                    <button type="submit" class="mud-nav-link mud-ripple">
+                        <MudIcon Icon="@Icons.Material.Filled.Logout" Color="Color.Error" Class="mr-3" />
+                        Sair
+                    </button>
+                </form>
+            </Authorized>
+            <NotAuthorized>
+                <MudNavLink Href="Account/Register" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.PersonAdd">Registrar</MudNavLink>
+                <MudNavLink Href="Account/Login" Match="NavLinkMatch.Prefix" Icon="@Icons.Material.Filled.Login">Entrar</MudNavLink>
+            </NotAuthorized>
+        </AuthorizeView>
+    </MudNavGroup>
+</MudNavMenu>
+
+@code {
+    private string? currentUrl;
+
+    protected override void OnInitialized()
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(NavigationManager.Uri);
+        NavigationManager.LocationChanged += OnLocationChanged;
+    }
+
+    private void OnLocationChanged(object? sender, LocationChangedEventArgs e)
+    {
+        currentUrl = NavigationManager.ToBaseRelativePath(e.Location);
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        NavigationManager.LocationChanged -= OnLocationChanged;
+    }
+}
